@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Engine/TriggerVolume.h"
 #include "OpenDoor.generated.h"
 
 
@@ -23,6 +24,15 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+private:
+	//UPROPERTY affects the variable directly underneath it.  This particular case allows the variable to be visible in the UE4 Editor but not editable from the same field.
+	UPROPERTY(VisibleAnywhere)
+	float OpenAngle = 90.f;
+
+	// This makes is visible AND editable in the UE4 editor even though it is a private variable
+	UPROPERTY(EditAnywhere)
+	ATriggerVolume* PressurePlate;
 
 		
 };
