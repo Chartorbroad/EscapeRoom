@@ -1,0 +1,8 @@
+#ignore the following directories and files
+
+Binaries/
+Build/
+Intermediate/
+Saved/
+DerivedDataCache/
+*VC.db
