@@ -1,9 +1,16 @@
-#ignore the following directories and files
+##########################
+# Unreal Generated Files #
+##########################
 
-Binaries/
-Build/
-Intermediate/
-Saved/
-DerivedDataCache/
-Content/StarterContent/
+*/Binaries/
+*/Build/
+*/Intermediate/
+*/Saved/
+*/DerivedDataCache/
+*/Content/StarterContent/
+
+
+##########################
+# VC Generated Files     #
+##########################
 *VC.db
