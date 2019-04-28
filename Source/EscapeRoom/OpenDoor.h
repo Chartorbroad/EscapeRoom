@@ -33,7 +33,7 @@ public:
 private:
 	//UPROPERTY affects the variable directly underneath it.  This particular case allows the variable to be visible in the UE4 Editor but not editable from the same field.
 	UPROPERTY(VisibleAnywhere)
-	float OpenAngle = -60.f;
+	float OpenAngle = -70.f;
 
 	// This makes is visible AND editable in the UE4 editor even though it is a private variable
 	UPROPERTY(EditAnywhere)
@@ -48,5 +48,8 @@ private:
 	AActor* ActorThatOpens; // Remember pawn inherits from actor (could use APawn here too if we only want the player to be the trigger.  But AActor allows us to use chairs etc too)
 
 	AActor* Owner;
+
+	// Returns total mass in kilograms
+	float GetTotalMassOfActorsOnPlate();
 
 };
