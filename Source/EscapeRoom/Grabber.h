@@ -27,7 +27,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
-	APlayerController* PlayerController;
+	APlayerController* PlayerController = nullptr;
 	FVector PlayerViewPointLocation;
 	FRotator PlayerViewPointRotator;
 	float Reach = 150.f;

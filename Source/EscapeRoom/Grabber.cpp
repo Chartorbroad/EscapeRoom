@@ -104,20 +104,26 @@ const FHitResult UGrabber::GetFirstPhysicsBodyInReach()
 
 const FVector UGrabber::GetPlayerReachLineStart() {
 
-	PlayerController->GetPlayerViewPoint(
-		OUT PlayerViewPointLocation,
-		OUT PlayerViewPointRotator);
+	if (PlayerController) {
+		PlayerController->GetPlayerViewPoint(
+			OUT PlayerViewPointLocation,
+			OUT PlayerViewPointRotator);
+		return PlayerViewPointLocation;
+	}
 
-	return (PlayerViewPointLocation);
+	return (FVector(0.f, 0.f, 0.f));
 }
 
 const FVector UGrabber::GetPlayerReachLineEnd() {
 
-	PlayerController->GetPlayerViewPoint(
-		OUT PlayerViewPointLocation,
-		OUT PlayerViewPointRotator);
+	if (PlayerController) {
+		PlayerController->GetPlayerViewPoint(
+			OUT PlayerViewPointLocation,
+			OUT PlayerViewPointRotator);
+		return (PlayerViewPointLocation + (PlayerViewPointRotator.Vector() * Reach));
+	}
 
-	return (PlayerViewPointLocation + (PlayerViewPointRotator.Vector() * Reach));
+		return (FVector(0.f, 0.f, 0.f));
 }
 
 // Called every frame

@@ -35,6 +35,7 @@ void UOpenDoor::BeginPlay()
 void UOpenDoor::OpenTheDoor()
 {
 	//Set the door rotation
+	if (!Owner) {return;}
 	Owner->SetActorRotation(FRotator(0.f, OpenAngle, 0.f)); // FRotator(pitch, yaw, roll)
 	SetDoorOpenStatus(true);
 }
@@ -42,6 +43,7 @@ void UOpenDoor::OpenTheDoor()
 void UOpenDoor::CloseTheDoor()
 {
 	//Set the door rotation
+	if (!Owner) { return; }
 	Owner->SetActorRotation(FRotator(0.f, 0.0f, 0.f)); // FRotator(pitch, yaw, roll)
 	SetDoorOpenStatus(false);
 }
@@ -62,6 +64,7 @@ float UOpenDoor::GetTotalMassOfActorsOnPlate() {
 	// Find all the actors overlapping with the TriggerVolume (PressurePlate)
 	
 	TArray<AActor*> OverlappingActors;
+	if (!PressurePlate) { return 0.f; }
 	PressurePlate->GetOverlappingActors(OUT OverlappingActors);
 	for (const auto* Actor : OverlappingActors) {
 		if (Actor) {
@@ -69,8 +72,6 @@ float UOpenDoor::GetTotalMassOfActorsOnPlate() {
 			TotalMass += Actor->FindComponentByClass<UPrimitiveComponent>()->GetMass();
 		}
 	}
-	
-	// Iterate throgh them and sum their masses
 	
 	return TotalMass;
 }
