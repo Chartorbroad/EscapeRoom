@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include <GameFramework/PlayerController.h>
+#include <PhysicsEngine/PhysicsHandleComponent.h>
 #include "Grabber.generated.h"
 
 
@@ -30,5 +31,7 @@ private:
 	FVector PlayerViewPointLocation;
 	FRotator PlayerViewPointRotator;
 	float Reach = 100.f;
+
+	UPhysicsHandleComponent* PhysicsHandle = nullptr;
 
 };
