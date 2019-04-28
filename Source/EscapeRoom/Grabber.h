@@ -35,6 +35,12 @@ private:
 	UPhysicsHandleComponent* PhysicsHandle = nullptr;
 	UInputComponent* InputComponent = nullptr;
 
+	// Find assumed attached Physics Handle
+	void FindPhysicsHandleComponent();
+
+	// Setup assumed attached input component
+	void SetupInputComponent();
+
 	// Ray-cast and grab what's in reach
 	void GrabObject();
 	// Release a grabbed object
