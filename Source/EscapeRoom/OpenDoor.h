@@ -7,7 +7,7 @@
 #include "Engine/TriggerVolume.h"
 #include "OpenDoor.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnOpenRequest);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FDoorEvent);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class ESCAPEROOM_API UOpenDoor : public UActorComponent
@@ -24,34 +24,23 @@ protected:
 
 	void OpenTheDoor();
 	void CloseTheDoor();
-	void SetDoorOpenStatus(bool);
-	bool IsDoorOpen() const;
 
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UPROPERTY(BlueprintAssignable)
-	FOnOpenRequest OnOpenRequest;
+	FDoorEvent OnOpenRequest;
+	UPROPERTY(BlueprintAssignable)
+	FDoorEvent OnCloseRequest;
 
 private:
-	//UPROPERTY affects the variable directly underneath it.  This particular case allows the variable to be visible in the UE4 Editor but not editable from the same field.
-	UPROPERTY(VisibleAnywhere)
-	float OpenAngle = -70.f;
-
 	// This makes is visible AND editable in the UE4 editor even though it is a private variable
 	UPROPERTY(EditAnywhere)
 	ATriggerVolume* PressurePlate = nullptr;
-	
+
 	UPROPERTY(EditAnywhere)
-	float DoorCloseDelay = 1.f;
-
-	float LastDoorOpenTime;
-	bool doorOpenStatus = false;
-
-	AActor* ActorThatOpens = nullptr; // Remember pawn inherits from actor (could use APawn here too if we only want the player to be the trigger.  But AActor allows us to use chairs etc too)
-
-	AActor* Owner = nullptr;
+	float TriggerMass = 10.f;
 
 	// Returns total mass in kilograms
 	float GetTotalMassOfActorsOnPlate();

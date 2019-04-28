@@ -25,38 +25,23 @@ UOpenDoor::UOpenDoor()
 void UOpenDoor::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	// Find the pawn by going down from the world, to the player, to their 'body'
-	ActorThatOpens = GetWorld()->GetFirstPlayerController()->GetPawn();
-	Owner = GetOwner();
 
 }
 
 void UOpenDoor::OpenTheDoor()
 {
-	//Set the door rotation
-	//if (!Owner) {return;}
-	//Owner->SetActorRotation(FRotator(0.f, OpenAngle, 0.f)); // FRotator(pitch, yaw, roll)
+
 	OnOpenRequest.Broadcast();
-	SetDoorOpenStatus(true);
+
 }
 
 void UOpenDoor::CloseTheDoor()
 {
-	//Set the door rotation
-	if (!Owner) { return; }
-	Owner->SetActorRotation(FRotator(0.f, 0.0f, 0.f)); // FRotator(pitch, yaw, roll)
-	SetDoorOpenStatus(false);
+
+	OnCloseRequest.Broadcast();
+
 }
 
-bool UOpenDoor::IsDoorOpen() const {
-	return doorOpenStatus;
-}
-
-void UOpenDoor::SetDoorOpenStatus(bool status) {
-	doorOpenStatus = status;
-	return;
-}
 
 float UOpenDoor::GetTotalMassOfActorsOnPlate() {
 	
@@ -84,19 +69,12 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 
 	// Inefficient method!
 	// Poll the Trigger volume every frame
-	if (GetTotalMassOfActorsOnPlate() > 10.f) { // TODO Stop hardcoding this
-		
+	if (GetTotalMassOfActorsOnPlate() > TriggerMass) {
 	    //Then we open the door.
 		OpenTheDoor();
-		LastDoorOpenTime = GetWorld()->GetTimeSeconds();
-		
 	}
-
-	// Check if it's time to close the door
-	if (IsDoorOpen()) {
-		if ( (GetWorld()->GetTimeSeconds()-LastDoorOpenTime) >= DoorCloseDelay) {
-			CloseTheDoor();
-		}
+	else {
+		CloseTheDoor();
 	}
 
 
