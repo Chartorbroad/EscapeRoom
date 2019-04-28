@@ -35,8 +35,9 @@ void UOpenDoor::BeginPlay()
 void UOpenDoor::OpenTheDoor()
 {
 	//Set the door rotation
-	if (!Owner) {return;}
-	Owner->SetActorRotation(FRotator(0.f, OpenAngle, 0.f)); // FRotator(pitch, yaw, roll)
+	//if (!Owner) {return;}
+	//Owner->SetActorRotation(FRotator(0.f, OpenAngle, 0.f)); // FRotator(pitch, yaw, roll)
+	OnOpenRequest.Broadcast();
 	SetDoorOpenStatus(true);
 }
 
