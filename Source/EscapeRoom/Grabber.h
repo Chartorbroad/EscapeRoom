@@ -46,4 +46,7 @@ private:
 	// Release a grabbed object
 	void ReleaseObject();
 
+	// Return hit for first Physics body in LINE TRACE
+	const FHitResult GetFirstPhysicsBodyInReach();
+
 };

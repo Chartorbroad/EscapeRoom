@@ -56,9 +56,11 @@ void UGrabber::SetupInputComponent(){
 }
 
 void UGrabber::GrabObject() {
-	UE_LOG(LogTemp, Warning, TEXT("Trying to Grab!"))
+	UE_LOG(LogTemp, Warning, TEXT("Trying to Grab!"));
 
-	/// Try and reach any actors with physics body collision channel set
+	GetFirstPhysicsBodyInReach();
+
+	/// LINE TRACE and reach any actors with physics body collision channel set
 
 	/// If we hit something with a Ray-cast, then attach a Physics Handle
 	// TODO attach physics handle
@@ -70,19 +72,13 @@ void UGrabber::ReleaseObject() {
 	// TODO release physics handle
 }
 
-// Called every frame
-void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+const FHitResult UGrabber::GetFirstPhysicsBodyInReach()
 {
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// if the physics handle is attached
-		// move the object that we're holding
 
 	/// Get the player view point
 	PlayerController->GetPlayerViewPoint(
-		OUT PlayerViewPointLocation, 
+		OUT PlayerViewPointLocation,
 		OUT PlayerViewPointRotator);
-	/*UE_LOG(LogTemp, Warning, TEXT("PlayerController View Point = %s , %s"), *PlayerViewPointLocation.ToString(), *PlayerViewPointRotator.ToString());*/
 
 	/// Find linetrace end
 	FVector LineTraceEnd = PlayerViewPointLocation + (PlayerViewPointRotator.Vector() * Reach);//FVector(0.f, 0.f, 100.f); // temporary end vector for drawing;
@@ -105,8 +101,17 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	if (ActorHit) { // make sure it's not a null-pointer (i.e. no collison)
 		UE_LOG(LogTemp, Warning, TEXT("The LineTrace hit the Actor:: %s"), *(ActorHit->GetName()))
 	}
-		
 
+	return FHitResult();
+}
+
+// Called every frame
+void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	// if the physics handle is attached
+		// move the object that we're holding
 
 }
 
