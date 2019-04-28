@@ -49,4 +49,10 @@ private:
 	// Return hit for first Physics body in LINE TRACE
 	const FHitResult GetFirstPhysicsBodyInReach();
 
+	// Returns current start of reach line
+	const FVector GetPlayerReachLineStart();
+
+	// Returns current end of reach line
+	const FVector GetPlayerReachLineEnd();
+
 };
