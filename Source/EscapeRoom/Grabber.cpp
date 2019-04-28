@@ -6,6 +6,7 @@
 #include "Engine/Public/DrawDebugHelpers.h"
 #include "GameFramework/Actor.h"
 #include <GameFramework/PlayerController.h>
+#include "Components/InputComponent.h"
 
 #define OUT //this does nothing at all but can be used for markup lower down - i.e. visual reminders!
 
@@ -31,15 +32,29 @@ void UGrabber::BeginPlay()
 
 	/// Look for attached Physics Handle
 	PhysicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
-	if (PhysicsHandle) {
-		// Physics Handle is found
+	if (!PhysicsHandle) {
+		UE_LOG(LogTemp, Error, TEXT("%s is missing a PhysicsHandle!"), *(GetOwner()->GetName()))
+	}
+
+	InputComponent = GetOwner()->FindComponentByClass<UInputComponent>();
+	if (!InputComponent) {
+		UE_LOG(LogTemp, Error, TEXT("%s is missing an InputComponent!"), *(GetOwner()->GetName()))
 	}
 	else {
-		UE_LOG(LogTemp, Error, TEXT("%s has failed to find it's PhysicsHandle!"), *(GetOwner()->GetName()))
+		///Bind the input actions
+		InputComponent->BindAction("Grab", IE_Pressed, this, &UGrabber::GrabObject);
+		InputComponent->BindAction("Grab", IE_Released, this, &UGrabber::ReleaseObject);
 	}
 	
 }
 
+void UGrabber::GrabObject() {
+	UE_LOG(LogTemp, Warning, TEXT("Trying to Grab!"))
+}
+
+void UGrabber::ReleaseObject() {
+	UE_LOG(LogTemp, Warning, TEXT("Trying to Release!"))
+}
 
 // Called every frame
 void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
